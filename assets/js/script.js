@@ -7,8 +7,17 @@
 // THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity
 // WHEN I click on a city in the search history
 // THEN I am again presented with current and future conditions for that city
+
+//name, date, icon, temp, humidity, wind speed, uv
+var searchHistory = [];
 var rootUrl = 'https://api.openweathermap.org';
 var apiKey = '529a4a77591cd797917d95ed3b0a882f';
+var searchHistoryDiv = document.querySelector("#history");
+
+function renderSearchHistory() {
+  searchHistoryDiv.innerHTML = ''
+
+}
 
 function fetchWeather(location) {
   var { lat } = location;
@@ -17,29 +26,21 @@ function fetchWeather(location) {
   var apiUrl = `${rootUrl}/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
 
   fetch(apiUrl)
-    .then(function(res) {
-      return res.json();
-    })
-    .then(function (data){
-      renderItems(city, data);
-    })
-    .catch(function (err) {
-      console.error(err);
-    });
+    .then(response =>(response.json))
+    .then(data => console.log(data))
+    .catch(error => console.error(error));
+
 }
-
-
 var searchBtn = document.querySelector(".btn")
 
 searchBtn.addEventListener("click", event => {
   console.log("testing")
 
-  var cityName = document.getElementById("cityName").value 
+  var cityName = document.getElementById("cityName").value
   console.log(cityName);
 
   fetch (`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=529a4a77591cd797917d95ed3b0a882f`)
-    .then(res=>{
-      console.log(res.data)
-    })
-
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error(error));
 })
